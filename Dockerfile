@@ -5,6 +5,7 @@ COPY package*.json ./
 RUN npm ci --include=dev
 COPY index.html vite.config.js ./
 COPY client ./client
+COPY public ./public
 COPY server ./server
 COPY sql ./sql
 COPY scripts/migrate.js ./scripts/migrate.js

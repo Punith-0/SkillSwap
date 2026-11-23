@@ -32,6 +32,7 @@ import {
 import "./style.css";
 import "./admin-portal.css";
 import {AdminPortal} from "./admin-portal.jsx";
+import {InstallApp} from './install-app.jsx';
 import "./shared/action-motion.css";
 import "./shared/project-play.css";
 import "./shared/project-play.js";
@@ -295,6 +296,7 @@ function App() {
             </strong>
           </div>
           <div className="top-actions">
+            <InstallApp/>
             <select
               aria-label="Theme"
               value={theme}
