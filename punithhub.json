@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "slug": "skillswap",
+  "title": "SkillSwap",
+  "description": "Learn by teaching. Discover campus skills, book peer sessions and exchange learning credits.",
+  "frontend": { "entry": "index.html" },
+  "runtime": "node",
+  "database": { "engine": "mysql", "migrations": ["sql/001-schema.sql"] },
+  "auth": "punithhub"
+}
