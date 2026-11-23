@@ -134,11 +134,9 @@ export async function rateLimit(label, limit, seconds) {
       [key],
       c,
     );
-    requireThat(
-      r.expired || r.hits < limit,
-      "Too many attempts. Please try later.",
-      429,
-    );
+    const remaining=Math.max(1,Math.ceil((new Date(String(r.reset_at).replace(' ','T')+'Z').getTime()-Date.now())/1000));
+    const wait=remaining<60?`${remaining} seconds`:`${Math.ceil(remaining/60)} minutes`;
+    requireThat(r.expired || r.hits < limit,`Too many verification requests. Try again in ${wait}.`,429);
     await rows(
       "UPDATE rate_limits SET hits=?,reset_at=? WHERE bucket=?",
       [
@@ -241,9 +239,9 @@ export async function requestOtp(req) {
       "Add your name (2–80 characters)",
     );
   await rateLimit("ip:" + req.ip, 20, 3600);
+  await verifyCaptcha(captcha_token);
   await rateLimit("email:" + email, 8, 3600);
   await rateLimit("cooldown:" + email, 1, 30);
-  await verifyCaptcha(captcha_token);
   const id = random(),
     code = crypto.randomInt(1000000).toString().padStart(6, "0");
   await transaction(async (c) => {

@@ -35,6 +35,8 @@ import { challenges, challengeGate } from './challenges.js';
 import { verifyHubIdentity } from './hub-identity.js';
 checkConfig();
 const app = express();
+// Render terminates HTTPS at its reverse proxy and forwards the client IP.
+if (process.env.RENDER === 'true') app.set('trust proxy', 1);
 app.disable("x-powered-by");
 app.use(
   helmet({
